@@ -1,0 +1,14 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Python/venv (if added later)
+venv/
+.env
+__pycache__/
+*.py[cod]
+
+# IDE
+.vscode/
+.idea/
