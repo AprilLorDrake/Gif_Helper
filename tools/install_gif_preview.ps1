@@ -1,16 +1,39 @@
-<#!
-Guides the user to install a reliable GIF preview handler for Explorer's Preview pane.
-- Opens IrfanView (64-bit) download page and the matching Plugins page in the default browser.
-- Instructs the user to install IrfanView first, then Plugins, then reopen Explorer and press Alt+P.
-No silent installs are performed.
+<#
+.SYNOPSIS
+  Opens pages to install a reliable GIF preview handler for Windows Explorer.
+
+.DESCRIPTION
+  Many Windows setups do not animate GIFs in Explorer's Preview pane by default.
+  This helper opens IrfanView (64-bit) and the Plugins page so you can install support.
+
+  After installing:
+    - Close all Explorer windows (or reboot)
+    - Open the GIF folder
+    - Press Alt+P to show the Preview pane
+    - Click a GIF to confirm it animates
+
+.PARAMETER Help
+  Show usage and exit.
 #>
 
-Write-Host "This helper will open the IrfanView 64-bit download pages so you can install GIF preview support." -ForegroundColor Cyan
-Write-Host "Steps:" -ForegroundColor Cyan
-Write-Host " 1) Download and install IrfanView 64-bit." -ForegroundColor Cyan
-Write-Host " 2) Download and install the IrfanView 64-bit Plugins pack." -ForegroundColor Cyan
-Write-Host " 3) Reopen File Explorer, press Alt+P to show the Preview pane, and click a GIF to confirm it animates." -ForegroundColor Cyan
-Write-Host "" 
+[CmdletBinding()]
+param(
+    [switch]$Help
+)
+
+function Show-Help {
+    Write-Host "install_gif_preview.ps1" -ForegroundColor Cyan
+    Write-Host "Opens IrfanView + Plugins download pages to improve GIF preview support." -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Usage:" -ForegroundColor Cyan
+    Write-Host "  powershell -File .\install_gif_preview.ps1" -ForegroundColor Yellow
+}
+
+if ($Help) { Show-Help; exit 0 }
+
+Write-Host "This helper opens download pages for IrfanView (64-bit) and its Plugins pack." -ForegroundColor Cyan
+Write-Host "After installing both, restart Explorer (or reboot), then press Alt+P and click a GIF." -ForegroundColor Cyan
+Write-Host ""
 
 $ivCore   = 'https://www.irfanview.com/64bit.htm'
 $ivPlugin = 'https://www.irfanview.com/plugins.htm'
@@ -20,5 +43,3 @@ Start-Process $ivCore
 
 Write-Host "Opening IrfanView Plugins download page..." -ForegroundColor Yellow
 Start-Process $ivPlugin
-
-Write-Host "After installing both, restart Explorer (or reboot), press Alt+P in Explorer, and try clicking a GIF." -ForegroundColor Cyan
