@@ -8,8 +8,26 @@ if ([string]::IsNullOrWhiteSpace($inputFolder)) {
     $inputFolder = $BaseFolder
 }
 
-# Ensure the GIFs subfolder exists
-$gifFolder = Join-Path -Path $inputFolder -ChildPath "GIFs"
+# Normalize the input (strip quotes/trailing slashes)
+$inputFolder = $inputFolder.Trim().Trim('"').TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+
+# Choose the GIF folder intelligently:
+# - If the user already pointed at a folder named gif/gifs, use it directly.
+# - Else, if the provided folder already contains a gif/gifs child, use that.
+# - Else, default to <input>/GIFs.
+$gifFolder = $null
+$leaf = Split-Path -Path $inputFolder -Leaf
+if ($leaf -match '^(?i)gif(s)?$') {
+    $gifFolder = $inputFolder
+} else {
+    $gifCandidates = @("GIFs", "Gifs", "gifs", "GIF", "gif") | ForEach-Object { Join-Path -Path $inputFolder -ChildPath $_ }
+    $gifFolder = $gifCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+    if (-not $gifFolder) {
+        $gifFolder = Join-Path -Path $inputFolder -ChildPath "GIFs"
+    }
+}
+
+# Ensure the chosen folder exists
 if (-not (Test-Path -LiteralPath $gifFolder)) {
     New-Item -ItemType Directory -Path $gifFolder -Force | Out-Null
 }

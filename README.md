@@ -11,10 +11,12 @@ A tiny helper to open File Explorer at a GIFs folder (creating it if needed), co
 ## Files
 - `tools/open_gif_folder.ps1` — prompts for a base folder, creates `GIFs`, copies the path, opens Explorer.
 - `tools/open_gif_folder.bat` — double-click-friendly wrapper around the PowerShell script.
+- `tools/install_gif_preview.ps1` — opens IrfanView + Plugins download pages to add a reliable animated GIF preview handler for Explorer.
 
 ## Notes
 - GIF animation preview works in Explorer’s Preview pane, not in the browser’s Open dialog.  
 - For WebP/AVIF animation, install the Microsoft Store extensions (WebP Image Extensions; AV1/HEIF/HEVC for AVIF).
+- If GIFs don’t animate in Explorer’s Preview pane on your machine, run `tools/install_gif_preview.ps1` to install IrfanView (64-bit) and the Plugins pack, then reopen Explorer and press Alt+P.
 
 ## Publish to GitHub (via GitHub Desktop)
 1. Open GitHub Desktop → **File → Add local repository** → choose `C:\Projects\Gif_Helper`.  
