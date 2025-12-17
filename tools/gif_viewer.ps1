@@ -78,9 +78,9 @@ Enable-DoubleBuffer $form
 
 $topPanel = New-Object System.Windows.Forms.FlowLayoutPanel
 $topPanel.FlowDirection = 'LeftToRight'
-$topPanel.WrapContents  = $false
+$topPanel.WrapContents  = $true
 $topPanel.Dock          = 'Top'
-$topPanel.Height        = 64
+$topPanel.Height        = 96
 $topPanel.Padding       = '8,8,8,8'
 $topPanel.AutoSize      = $false
 $topPanel.AutoScroll    = $true
