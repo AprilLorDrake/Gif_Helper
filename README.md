@@ -1,6 +1,6 @@
 # GIF Helper (Windows)
 
-A tiny helper to open File Explorer at a GIFs folder (creating it if needed), copy the folder path to your clipboard, and let you quickly pick animated GIFs in upload dialogs (e.g., LinkedIn). On Windows 11, use the Explorer **Preview pane** (Alt+P) to see GIFs animate; the browser upload dialog itself stays static.
+A tiny helper to open File Explorer at a GIFs folder (creating it if needed), copy the folder path to your clipboard, and let you quickly pick animated GIFs in upload dialogs (e.g., LinkedIn). Browser upload dialogs stay static, so use the built-in GIF viewer for animation (or Explorer’s Preview pane with Alt+P if you prefer).
 
 ## Quick start
 1. Run `tools/open_gif_folder.bat` (double-click).  
