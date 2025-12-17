@@ -231,6 +231,18 @@ function Set-Status($text) {
     $statusLabel.Text = $text
 }
 
+function Resolve-GifFolderPath($basePath) {
+    if (-not $basePath) { return $basePath }
+    $leaf = Split-Path -Path $basePath -Leaf
+    if ($leaf -match '^(gif|gifs)$') { return $basePath }
+
+    $gifChild = Join-Path $basePath 'GIFs'
+    $altChild = Join-Path $basePath 'gifs'
+    if (Test-Path -LiteralPath $gifChild) { return $gifChild }
+    if (Test-Path -LiteralPath $altChild) { return $altChild }
+    return $gifChild
+}
+
 function Set-CopyButtonState {
     if ($state.Selection) {
         $copyBtn.Enabled = $true
@@ -247,9 +259,15 @@ function Set-CopyButtonState {
 
 function Set-Folder($path) {
     if (-not [string]::IsNullOrWhiteSpace($path)) {
-        $state.Folder = $path
-        $folderBox.Text = $path
-        Save-LastFolder $path
+        $resolved = Resolve-GifFolderPath $path
+        try {
+            if ($resolved -and -not (Test-Path -LiteralPath $resolved)) {
+                New-Item -ItemType Directory -Path $resolved -Force | Out-Null
+            }
+        } catch {}
+        $state.Folder = $resolved
+        $folderBox.Text = $resolved
+        Save-LastFolder $resolved
     }
 }
 
@@ -321,6 +339,7 @@ function Load-Files {
         Set-Status "Folder not found: $($state.Folder)"
         return
     }
+    $folderBox.Text = $state.Folder
     $state.Files = Get-ChildItem -LiteralPath $state.Folder -Filter '*.gif' -File -ErrorAction SilentlyContinue
     Build-ImagesAndList
     Set-CopyButtonState
@@ -379,7 +398,7 @@ function Delete-Selection {
 
 $browseBtn.Add_Click({
     $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
-    $dlg.Description = 'Select a GIF folder'
+    $dlg.Description = 'Select your GIF root folder (a GIFs subfolder will be created/used)'
     $dlg.SelectedPath = $state.Folder
     if ($dlg.ShowDialog() -eq 'OK') {
         Set-Folder $dlg.SelectedPath
@@ -423,6 +442,7 @@ $form.Add_KeyDown({
 
 Set-Folder $defaultFolder
 Load-Files
+Set-Status "Use Browse to pick your GIF root; a GIFs subfolder will be created/used automatically."
 Set-CopyButtonState
 
 $form.add_FormClosing([System.Windows.Forms.FormClosingEventHandler]{
