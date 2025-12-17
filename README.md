@@ -14,12 +14,23 @@ A tiny helper to open File Explorer at a GIFs folder (creating it if needed), co
 - `tools/install_gif_preview.ps1` — opens IrfanView + Plugins download pages to add a reliable animated GIF preview handler for Explorer.
 - `tools/gif_viewer.ps1` — WinForms desktop GIF browser: browse folders, preview animated GIFs, copy file paths, delete unwanted GIFs. Pick your base folder and it will use/create a `GIFs` subfolder automatically.
 - `tools/gif_viewer.bat` — double-click wrapper for `gif_viewer.ps1`.
+- `tools/create_shortcut.ps1` — create a desktop shortcut to launch the GIF viewer (Windows only).
 
 ## Notes
 - GIF animation preview works in Explorer’s Preview pane, not in the browser’s Open dialog.  
 - For WebP/AVIF animation, install the Microsoft Store extensions (WebP Image Extensions; AV1/HEIF/HEVC for AVIF).
 - If GIFs don’t animate in Explorer’s Preview pane on your machine, run `tools/install_gif_preview.ps1` to install IrfanView (64-bit) and the Plugins pack, then reopen Explorer and press Alt+P.
 - If Explorer previews stay static, you can still browse and preview animations via `tools/gif_viewer.ps1` (or the .bat wrapper); click a GIF to animate, use “Copy path” to paste into file pickers, or Delete to clean up. When browsing, select your root folder; the viewer will create/use a `GIFs` subfolder automatically.
+
+## Desktop shortcut (Windows)
+Run this once to add a desktop shortcut for the viewer:
+
+```powershell
+cd C:\Projects\Gif_Helper
+powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1
+```
+
+The shortcut targets `tools\gif_viewer.bat`. Adjust the path if you installed the repo elsewhere.
 
 ## Release notes
 - Latest: Added a Delete button (and Delete-key shortcut) to the GIF viewer, plus safer thumbnail loading for problematic GIFs.
