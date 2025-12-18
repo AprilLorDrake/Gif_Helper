@@ -38,7 +38,7 @@ try {
 } catch {}
 
 Write-Host "GIF folder ready at: $gifFolder"
-Write-Host "(Path copied to clipboard. Press Alt+P in Explorer to show the Preview pane.)"
+Write-Host "(Path copied to clipboard. Alt+P toggles Explorer's Preview pane; use tools\\gif_viewer.bat for animated previews.)"
 
 # Launch Explorer to that folder (user can press Alt+P to toggle Preview pane)
 Start-Process explorer.exe $gifFolder
