@@ -231,6 +231,14 @@ function Set-Status($text) {
     $statusLabel.Text = $text
 }
 
+function Clear-Selection {
+    $state.Selection = $null
+    $picture.Image = $null
+    $picture.ImageLocation = $null
+    $pathLabel.Text = ''
+    Set-CopyButtonState
+}
+
 function Resolve-GifFolderPath($basePath) {
     if (-not $basePath) { return $basePath }
     $leaf = Split-Path -Path $basePath -Leaf
@@ -280,7 +288,7 @@ function Build-ImagesAndList {
     # Apply filter
     $filter = $state.Filter
     if ($filter) {
-        $files = $files | Where-Object { $_.Name -like "*${filter}*" }
+        $files = $files | Where-Object { $_.Name -ilike "*${filter}*" }
     }
 
     # Apply sort
@@ -326,15 +334,13 @@ function Build-ImagesAndList {
     if ($files.Count -eq 0) {
         Set-Status "No GIFs found in $($state.Folder)"
     } else {
-        Set-Status "Showing $($files.Count) GIF(s) from $($state.Folder)"
+        $flt = ($state.Filter ? " (filter: '$($state.Filter)')" : '')
+        Set-Status "Showing $($files.Count) GIF(s) from $($state.Folder)$flt | Sort: $($state.Sort) $($state.SortDir)"
     }
 }
 
 function Load-Files {
-    $state.Selection = $null
-    $picture.Image = $null
-    $picture.ImageLocation = $null
-    $pathLabel.Text = ''
+    Clear-Selection
     if (-not (Test-Path -LiteralPath $state.Folder)) {
         Set-Status "Folder not found: $($state.Folder)"
         return
@@ -411,16 +417,19 @@ $copyBtn.Add_Click({ Copy-Selection })
 $deleteBtn.Add_Click({ Delete-Selection })
 
 $filterBox.Add_TextChanged({
+    Clear-Selection
     $state.Filter = $filterBox.Text
     Build-ImagesAndList
 })
 
 $sortCombo.Add_SelectedIndexChanged({
+    Clear-Selection
     $state.Sort = $sortCombo.SelectedItem
     Build-ImagesAndList
 })
 
 $sortDirCombo.Add_SelectedIndexChanged({
+    Clear-Selection
     $state.SortDir = $sortDirCombo.SelectedItem
     Build-ImagesAndList
 })
