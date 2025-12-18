@@ -4,13 +4,16 @@
 - Layout:
   - `tools/open_gif_folder.ps1` — core logic: prompt for base folder (default `$env:USERPROFILE\Pictures`), create/ensure `GIFs`, copy path via `Set-Clipboard`, open Explorer.
   - `tools/open_gif_folder.bat` — double-click wrapper: invokes the PS1 with `-ExecutionPolicy Bypass` and forwards any args (`%*`).
+  - `tools/gif_viewer.ps1` — WinForms desktop GIF browser: browse folders, animated preview, copy path, open in Explorer.
+  - `tools/gif_viewer.bat` — double-click wrapper for the viewer.
+  - `tools/install_gif_preview.ps1` — opens IrfanView + Plugins download pages to add a reliable animated GIF preview handler for Explorer.
 - Expected flow (PS1): prompt → resolve base folder (accept empty as default) → if user points at a folder named `gif`/`gifs`, reuse it; else if the provided folder already has a `gif`/`gifs` child, reuse that; else append `GIFs` → `Test-Path`/`New-Item -ItemType Directory -Force` → try `Set-Clipboard` (swallow errors) → `Start-Process explorer.exe <gifFolder>` → writes two `Write-Host` lines for status/hint.
 - Usage examples:
   - Double-click `tools/open_gif_folder.bat` and press Enter at the prompt to use `%USERPROFILE%\Pictures`.
   - `open_gif_folder.bat "D:\Media"` pre-fills prompt with `D:\Media`, then uses/creates `D:\Media\GIFs`.
 - Platform assumptions: Windows-only; PowerShell available. Bat wrapper intentionally uses `ExecutionPolicy Bypass` for click-to-run convenience.
 - UX notes: Preview animated GIFs via Explorer Preview pane (Alt+P). Browser file pickers stay static; clipboard already has folder path for quick paste into address bar.
-- Dependencies: built-in PowerShell cmdlets only; keep zero external deps. If you add modules, document install steps and avoid breaking click-to-run.
+- Dependencies: built-in PowerShell cmdlets only; keep zero external deps. If you add modules, document install steps and avoid breaking click-to-run. Viewer uses WinForms (`Add-Type -AssemblyName System.Windows.Forms,System.Drawing`).
 - Editing patterns:
   - Preserve prompt-and-default flow and the `GIFs` subfolder convention.
   - Keep clipboard copy best-effort (try/catch empty) to avoid blocking on clipboard issues.
@@ -19,4 +22,5 @@
   - Run PS1 directly and via BAT; accept default and custom base paths.
   - Confirm `GIFs` creation when missing and no error if it already exists.
   - Verify Explorer opens at `GIFs` and clipboard contains the folder path.
+  - For `gif_viewer.ps1`: ensure it lists GIFs in the chosen folder, previews animation in the PictureBox, and Copy path puts the full file path on the clipboard. Keyboard: Enter/Space copies path; Ctrl+E opens folder.
 - Reference: README highlights quick start, Explorer Preview pane tip, WebP/AVIF codec note, and GitHub Desktop publish steps—keep those in sync if behavior changes.
