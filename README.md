@@ -16,6 +16,7 @@ A tiny helper to manage your GIFs folder (creating it if needed), copy the folde
 - `tools/gif_viewer.ps1` — WinForms desktop GIF browser: browse folders, preview animated GIFs, copy file paths, delete unwanted GIFs. Pick your base folder and it will use/create a `GIFs` subfolder automatically.
 - `tools/gif_viewer.bat` — double-click wrapper for `gif_viewer.ps1`.
 - `tools/create_shortcut.ps1` — create a desktop shortcut to launch the GIF viewer (Windows only).
+- `tools/open_gif_folder_macos.sh` — macOS helper: create/open `~/Pictures/GIFs` (or your supplied base), copy the path, and open Finder.
 
 ## Notes
 - GIF animation preview works in Explorer’s Preview pane, not in the browser’s Open dialog.  
@@ -32,6 +33,18 @@ powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1
 ```
 
 The shortcut targets `tools\gif_viewer.bat`. Adjust the path if you installed the repo elsewhere.
+
+## macOS helper
+
+Finder can’t animate inside file pickers, but Quick Look (Space) works great:
+
+```bash
+cd ~/Projects/Gif_Helper
+chmod +x tools/open_gif_folder_macos.sh
+./tools/open_gif_folder_macos.sh  # or pass a base folder
+```
+
+What it does: resolves/creates a `GIFs` subfolder under the base (default `~/Pictures`), copies the folder path to your clipboard, and opens it in Finder. Press Space on a GIF to animate via Quick Look.
 
 ## Release notes
 - Latest: Added a Delete button (and Delete-key shortcut) to the GIF viewer, plus safer thumbnail loading for problematic GIFs.
