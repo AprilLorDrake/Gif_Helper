@@ -33,7 +33,11 @@ cd C:\Projects\Gif_Helper
 powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1
 ```
 
-The shortcut targets `tools\gif_viewer.bat`. Adjust the path if you installed the repo elsewhere.
+The shortcut targets `tools\gif_viewer.bat` and sets a hotkey (Ctrl+Alt+G by default). Adjust the path or hotkey with parameters, e.g.:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1 -Target "D:\Media\Gif_Helper\tools\gif_viewer.bat" -Hotkey "Ctrl+Shift+G"
+```
 
 ## macOS helper
 
