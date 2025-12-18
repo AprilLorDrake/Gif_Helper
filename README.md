@@ -1,3 +1,16 @@
+
+<p align="center">
+  <img src="assets/banner.png" alt="GIF Helper banner" width="900">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/AprilLorDrake/OmegaBot">
+  <img src="https://img.shields.io/github/license/AprilLorDrake/OmegaBot">
+  <img src="https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white">
+  <img src="https://img.shields.io/badge/Batch-.bat-lightgrey">
+  ß<img src="https://img.shields.io/badge/Shell-.sh-121011?logo=gnu-bash&logoColor=white">
+</p>
+
 # GIF Helper (Windows + macOS)
 
 A small, practical helper to **organize, preview, and quickly select animated GIFs** for uploads (LinkedIn, GitHub, Slack, etc.).  
