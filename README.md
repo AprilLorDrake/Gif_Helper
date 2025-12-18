@@ -39,14 +39,18 @@ Its job is **fast navigation**, not file manipulation.
 
 1. Open **Terminal** in the repo root.
 2. Make the script executable (one time):
+
    ```bash
    chmod +x tools/open_gif_folder.sh
    ```
 3. Run the helper:
+
    ```bash
    ./tools/open_gif_folder.sh
    ```
+
    Or specify a base folder:
+
    ```bash
    ./tools/open_gif_folder.sh ~/Pictures
    ```
@@ -58,6 +62,7 @@ Its job is **fast navigation**, not file manipulation.
 
 ### Quick clipboard check (optional)
 Paste anywhere with **Cmd + V**, or in Terminal:
+
 ```bash
 pbpaste
 ```
