@@ -11,21 +11,8 @@ if ([string]::IsNullOrWhiteSpace($inputFolder)) {
 # Normalize the input (strip quotes/trailing slashes)
 $inputFolder = $inputFolder.Trim().Trim('"').TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
 
-# Choose the GIF folder intelligently:
-# - If the user already pointed at a folder named gif/gifs, use it directly.
-# - Else, if the provided folder already contains a gif/gifs child, use that.
-# - Else, default to <input>/GIFs.
-$gifFolder = $null
-$leaf = Split-Path -Path $inputFolder -Leaf
-if ($leaf -match '^(?i)gif(s)?$') {
-    $gifFolder = $inputFolder
-} else {
-    $gifCandidates = @("GIFs", "Gifs", "gifs", "GIF", "gif") | ForEach-Object { Join-Path -Path $inputFolder -ChildPath $_ }
-    $gifFolder = $gifCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-    if (-not $gifFolder) {
-        $gifFolder = Join-Path -Path $inputFolder -ChildPath "GIFs"
-    }
-}
+# Use the chosen folder directly (no special GIFs subfolder handling)
+$gifFolder = $inputFolder
 
 # Ensure the chosen folder exists
 if (-not (Test-Path -LiteralPath $gifFolder)) {

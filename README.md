@@ -15,7 +15,7 @@ Repo: https://github.com/AprilLorDrake/Gif_Helper
 - 🍎 Handy macOS helper for Finder + Quick Look
 
 ## What’s inside
-- `tools/open_gif_folder.ps1` / `.bat` — prompt for a base folder, create/use a GIF folder (defaults to a `GIFs` subfolder), copy its path, open Explorer.
+- `tools/open_gif_folder.ps1` / `.bat` — prompt for a folder, ensure it exists, copy its path, open Explorer.
 - `tools/gif_viewer.ps1` / `.bat` — WinForms GIF browser with navigation pane: browse, preview, search, sort, copy path, delete; use any folder you like (no special `GIFs` handling).
 - `tools/create_shortcut.ps1` — makes a desktop shortcut (with hotkey) pointing at the viewer; uses the bundled icon.
 - `tools/install_gif_preview.ps1` — jumps to IrfanView + Plugins download pages to improve Explorer thumbnail/preview support (animation still depends on Explorer).
@@ -24,10 +24,8 @@ Repo: https://github.com/AprilLorDrake/Gif_Helper
 
 ## Quick start (Windows)
 1) Double-click `tools/open_gif_folder.bat`.
-2) Press **Enter** to accept `%USERPROFILE%\Pictures` or type another base folder.
-   - If you type a “base” folder, the script will create/use a `GIFs` subfolder.
-   - If you point directly at a folder named `gif`/`gifs`, it will use that folder as-is.
-3) Explorer opens to your GIF folder. **Alt+P** toggles the Preview pane (it may be static on some systems).
+2) Press **Enter** to accept `%USERPROFILE%\Pictures` or type another folder.
+3) Explorer opens there. **Alt+P** toggles the Preview pane (it may be static on some systems).
 4) Paste the folder path (already on your clipboard) into any file picker’s address bar, then pick your GIF.
 
 For guaranteed animated previews, launch the built-in viewer: double-click `tools/gif_viewer.bat`.
@@ -85,88 +83,5 @@ I post my LinkedIn GIFs here: https://giphy.com/channel/aprildrake
 3. Commit the files (README, tools scripts, etc.) and click **Publish repository**.
 
 ## Optional: command-line
-- `open_gif_folder.bat "D:\\Media"` prompts with `D:\\Media` then creates/uses `D:\\Media\\GIFs`.
+- `open_gif_folder.bat "D:\\Media"` prompts with `D:\\Media` and opens it.
 - `gif_viewer.bat` launches the viewer; Browse to pick a folder, click a GIF to animate, Copy path to grab the full file path.
-# GIF Helper (Windows)
-
-A tiny helper to manage your GIFs folder (creating it if needed), copy the folder path to your clipboard, and quickly pick animated GIFs in upload dialogs (e.g., LinkedIn). For animation, use the built-in GIF viewer; Explorer’s Preview pane (Alt+P) is optional if you prefer Explorer.
-
-## Quick start
-1. Run `tools/open_gif_folder.bat` (double-click).  
-2. When prompted, press Enter to use `%USERPROFILE%\Pictures` or enter any base folder. The script will create/ensure a `GIFs` subfolder there.  
-3. Explorer opens to that folder. Press **Alt+P** to show the Preview pane so GIFs animate.  
-4. The folder path is already on your clipboard—paste it into the file picker’s address bar (e.g., LinkedIn) and select your GIF. The picker’s thumbnail will be static, but you’ve already verified the animation in Explorer.
-5. (Optional) Run `tools/gif_viewer.bat` to browse and preview GIFs with the built-in viewer (supports filtering, sorting, copy path, and delete).
-
-## Files
-- `tools/open_gif_folder.ps1` — prompts for a base folder, creates `GIFs`, copies the path, opens Explorer.
-- `tools/open_gif_folder.bat` — double-click-friendly wrapper around the PowerShell script.
-- `tools/install_gif_preview.ps1` — opens IrfanView + Plugins download pages to add a reliable animated GIF preview handler for Explorer.
-- `tools/gif_viewer.ps1` — WinForms desktop GIF browser: browse folders, preview animated GIFs, copy file paths, delete unwanted GIFs. Pick your base folder and it will use/create a `GIFs` subfolder automatically.
-- `tools/gif_viewer.bat` — double-click wrapper for `gif_viewer.ps1`.
-- `tools/create_shortcut.ps1` — create a desktop shortcut to launch the GIF viewer (Windows only).
-- `tools/open_gif_folder_macos.sh` — macOS helper: create/open `~/Pictures/GIFs` (or your supplied base), copy the path, and open Finder.
-- `tools/create_shortcut_macos.sh` — macOS helper to drop a Desktop shortcut that runs the macOS GIF folder helper.
-
-## Notes
-- GIF animation preview works in Explorer’s Preview pane, not in the browser’s Open dialog.  
-- For WebP/AVIF animation, install the Microsoft Store extensions (WebP Image Extensions; AV1/HEIF/HEVC for AVIF).
-- If GIFs don’t animate in Explorer’s Preview pane on your machine, run `tools/install_gif_preview.ps1` to install IrfanView (64-bit) and the Plugins pack, then reopen Explorer and press Alt+P.
-- If Explorer previews stay static, you can still browse and preview animations via `tools/gif_viewer.ps1` (or the .bat wrapper); click a GIF to animate, use “Copy path” to paste into file pickers, or Delete to clean up. When browsing, select your root folder; the viewer will create/use a `GIFs` subfolder automatically.
-
-## Desktop shortcut (Windows)
-Run this once to add a desktop shortcut for the viewer:
-
-```powershell
-cd C:\Projects\Gif_Helper
-powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1
-```
-
-The shortcut targets `tools\gif_viewer.bat` and sets a hotkey (Ctrl+Alt+G by default). Adjust the path or hotkey with parameters, e.g.:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tools\create_shortcut.ps1 `
-  -Target "D:\Media\Gif_Helper\tools\gif_viewer.bat" `
-  -Hotkey "Ctrl+Shift+G"
-```
-
-PowerShell notes:
-- Windows ships with Windows PowerShell already installed. If you need the newer PowerShell (pwsh), install from Microsoft Store or: `winget install --id Microsoft.PowerShell --source winget`.
-- These scripts don’t require admin; the commands above use `-ExecutionPolicy Bypass` to run just this script. If your policy is stricter, you can launch PowerShell as Administrator and rerun.
-
-## macOS helper
-
-Finder can’t animate inside file pickers, but Quick Look (Space) works great:
-
-```bash
-cd ~/Projects/Gif_Helper
-chmod +x tools/open_gif_folder_macos.sh
-./tools/open_gif_folder_macos.sh  # or pass a base folder
-```
-
-What it does: resolves/creates a `GIFs` subfolder under the base (default `~/Pictures`), copies the folder path to your clipboard, and opens it in Finder. Press Space on a GIF to animate via Quick Look.
-
-### macOS desktop shortcut
-
-```bash
-cd ~/Projects/Gif_Helper
-chmod +x tools/create_shortcut_macos.sh
-./tools/create_shortcut_macos.sh
-```
-
-This places a “GIF Helper.command” shortcut on your Desktop that launches the macOS helper.
-
-## Release notes
-- Latest: Added a Delete button (and Delete-key shortcut) to the GIF viewer, plus safer thumbnail loading for problematic GIFs.
-
-## Follow the GIFs
-I post these weird LinkedIn GIFs here: https://giphy.com/channel/aprildrake/weirdlinkedin
-
-## Publish to GitHub (via GitHub Desktop)
-1. Open GitHub Desktop → **File → Add local repository** → choose `C:\Projects\Gif_Helper`.  
-2. **Create repository** (public), choose a name, and publish to GitHub.  
-3. Commit the files (README, tools scripts, etc.) and click **Publish repository**.
-
-## Optional: command-line
-- `open_gif_folder.bat "D:\Media"` will prompt with `D:\Media` as the base, then create/use `D:\Media\GIFs`.
-- `gif_viewer.bat` opens the animated GIF browser; use Browse to pick a folder, click a GIF to animate, and “Copy path” to put the full file path on your clipboard.
