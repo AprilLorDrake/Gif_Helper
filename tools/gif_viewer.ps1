@@ -72,6 +72,7 @@ $form.Width         = 1100
 $form.Height        = 750
 $form.StartPosition = 'CenterScreen'
 $form.KeyPreview    = $true
+$form.ShowInTaskbar = $true
 $form.BackColor     = [System.Drawing.Color]::FromArgb(248,248,248)
 $form.Font          = New-Object System.Drawing.Font('Segoe UI',10)
 Enable-DoubleBuffer $form
@@ -459,4 +460,4 @@ $form.add_FormClosing([System.Windows.Forms.FormClosingEventHandler]{
     if ($state.Folder) { Save-LastFolder $state.Folder }
 })
 
-[void]$form.ShowDialog()
+[System.Windows.Forms.Application]::Run($form)
