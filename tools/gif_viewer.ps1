@@ -379,6 +379,17 @@ function Set-Status($text) {
     $statusLabel.Text = $text
 }
 
+function Format-FileSize {
+    param(
+        [Parameter(Mandatory=$true)][long]$Bytes
+    )
+
+    if ($Bytes -lt 1024) { return "$Bytes B" }
+    if ($Bytes -lt 1MB)  { return ("{0:N0} KB" -f [Math]::Round($Bytes / 1KB)) }
+    if ($Bytes -lt 1GB)  { return ("{0:N1} MB" -f ($Bytes / 1MB)) }
+    return ("{0:N1} GB" -f ($Bytes / 1GB))
+}
+
 function Update-FolderDisplay {
     $folderBox.Text = $state.Folder
 }
@@ -692,9 +703,27 @@ function Show-Preview($tag) {
     elseif ($tag) { $path = $tag.Path; $valid = $tag.Valid }
     if (-not $path) { Set-CopyButtonState; return }
     $state.Selection = $path
-    $pathLabel.Text = $path
+
+    $sizeText = $null
+    $modifiedText = $null
+    try {
+        $fi = Get-Item -LiteralPath $path -ErrorAction Stop
+        $sizeText = Format-FileSize -Bytes ([long]$fi.Length)
+        $modifiedText = $fi.LastWriteTime.ToString('yyyy-MM-dd HH:mm')
+    } catch {}
+
+    if ($sizeText) {
+        $pathLabel.Text = "$path  ($sizeText)"
+    } else {
+        $pathLabel.Text = $path
+    }
     if (-not $valid) {
-        Set-Status "Cannot preview (invalid image): $([System.IO.Path]::GetFileName($path))"
+        $name = [System.IO.Path]::GetFileName($path)
+        if ($sizeText) {
+            Set-Status "Cannot preview (invalid image): $name | $sizeText"
+        } else {
+            Set-Status "Cannot preview (invalid image): $name"
+        }
         Set-CopyButtonState
         return
     }
@@ -705,9 +734,21 @@ function Show-Preview($tag) {
         if ($picture.Image -and [System.Drawing.ImageAnimator]::CanAnimate($picture.Image)) {
             try { $animTimer.Start() } catch {}
         }
-        Set-Status "Selected: $([System.IO.Path]::GetFileName($path))"
+        $name = [System.IO.Path]::GetFileName($path)
+        if ($sizeText -and $modifiedText) {
+            Set-Status "Selected: $name | $sizeText | Modified: $modifiedText"
+        } elseif ($sizeText) {
+            Set-Status "Selected: $name | $sizeText"
+        } else {
+            Set-Status "Selected: $name"
+        }
     } catch {
-        Set-Status "Failed to preview: $path"
+        $name = [System.IO.Path]::GetFileName($path)
+        if ($sizeText) {
+            Set-Status "Failed to preview: $name | $sizeText"
+        } else {
+            Set-Status "Failed to preview: $name"
+        }
     }
     Set-CopyButtonState
 }
