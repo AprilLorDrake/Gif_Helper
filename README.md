@@ -22,7 +22,7 @@ Repo: https://github.com/AprilLorDrake/Gif_Helper
 - `tools/open_gif_folder_macos.sh` + `tools/create_shortcut_macos.sh` — Finder helper + desktop shortcut on macOS.
 - `resources/icon.png` — app/shortcut icon used by the viewer window and generated shortcut.
 - `tools/move_and_rename.ps1` — Moves only `.gif` files from one folder to another, skipping files with the same name and size, and renaming files with the same name but different sizes. Prompts for source and destination folders, and asks if originals should be deleted after moving.
-- `tools/deduplicate_gifs.ps1` — Scans a folder for duplicate `.gif` files (same size, same base name ignoring trailing special characters or numbering) and deletes duplicates after confirmation.
+- `tools/deduplicate_gifs.ps1` — Scans a folder for duplicate `.gif` files (same file size, same base name ignoring trailing special characters or numbering, e.g., `foo.gif`, `foo (1).gif`, `foo - Copy.gif`). Only one copy is kept; duplicates are deleted after confirmation.
 
 ## Quick start (Windows)
 1) Double-click `tools/open_gif_folder.bat`.
