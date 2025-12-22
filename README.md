@@ -21,6 +21,7 @@ Repo: https://github.com/AprilLorDrake/Gif_Helper
 - `tools/install_gif_preview.ps1` — jumps to IrfanView + Plugins download pages to improve Explorer thumbnail/preview support (animation still depends on Explorer).
 - `tools/open_gif_folder_macos.sh` + `tools/create_shortcut_macos.sh` — Finder helper + desktop shortcut on macOS.
 - `resources/icon.png` — app/shortcut icon used by the viewer window and generated shortcut.
+- `tools/move_and_rename.ps1` — Moves files from one folder to another, skipping files with the same name and size, and renaming files with the same name but different sizes. Prompts for source and destination folders, and asks if originals should be deleted after moving.
 
 ## Quick start (Windows)
 1) Double-click `tools/open_gif_folder.bat`.
