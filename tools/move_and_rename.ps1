@@ -20,7 +20,7 @@ function Prompt-ForFolder($prompt) {
 $source = Prompt-ForFolder "Enter the SOURCE folder path:"
 $dest = Prompt-ForFolder "Enter the DESTINATION folder path:"
 
-$files = Get-ChildItem -Path $source -File
+$files = Get-ChildItem -Path $source -File -Filter *.gif
 $movedFiles = @()
 
 foreach ($file in $files) {
